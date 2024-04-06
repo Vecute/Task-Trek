@@ -10,7 +10,7 @@ html {
 body {
   font-family: "Roboto", sans-serif;
   overflow-x: hidden;
-  background: url("/assets/background.svg") 50% / cover;
+  background: url("/src/assets/background.svg") 50% / cover;
   background-attachment: fixed;
   &::-webkit-scrollbar {
     width: 10px;
