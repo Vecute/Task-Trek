@@ -862,6 +862,9 @@ function getUsers() {
             option.textContent = user.name; // Устанавливаем текст опции как имя пользователя
             selector.appendChild(option); // Добавляем опцию в селектор
         });
+    }).catch((error)=>{
+        const selector = document.querySelector(".modal__selector"); // Находим селектор (список выбора) в DOM по классу 'modal__selector'
+        selector.innerHTML += '<option value="1">Anonymous</option>';
     });
 }
 function updateDeleteButtonVisibility() {
