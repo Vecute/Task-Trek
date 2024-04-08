@@ -20,6 +20,7 @@ export function addEventListenerForDragAndDrop() {
     });
   
     document.addEventListener('drop', (e) => { // Обработчик события отпускания карточки
+      if (e.target.closest('.card__container')) { // Проверяем было ли карточка отпущена в один из контейнеров
       // Получаем id контейнера, в который была перемещена карточка
       const dropTargetId = e.target.closest('.card__container').id;
       // Получаем ссылку на перетаскиваемую карточку по её id
@@ -27,15 +28,15 @@ export function addEventListenerForDragAndDrop() {
   
       // Проверяем, куда была перемещена карточка, и вызываем соответствующую функцию перемещения
       if (dropTargetId === 'todo__container' && !card.classList.contains('todo__card')) { // Дополнительно проверяем, чтобы нельзя было поместить карточку в изначальный раздел
-        moveToTodo(card);
-      } else if (dropTargetId === 'progress__container' && !card.classList.contains('progress__card')) {
-        moveToInProgress(card);
-      } else if (dropTargetId === 'completed__container' && !card.classList.contains('completed__card')) {
-        moveToCompleted(card);
+          moveToTodo(card);
+        } else if (dropTargetId === 'progress__container' && !card.classList.contains('progress__card')) {
+          moveToInProgress(card);
+        } else if (dropTargetId === 'completed__container' && !card.classList.contains('completed__card')) {
+          moveToCompleted(card);
       }
-  
       // Удаляем класс 'dragging', чтобы вернуть карточке исходный вид
       card.classList.remove('dragging');
+      }
     });
   
     document.addEventListener('dragend', (e) => {

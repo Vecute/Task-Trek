@@ -1095,16 +1095,18 @@ function addEventListenerForDragAndDrop() {
         e.preventDefault();
     });
     document.addEventListener("drop", (e)=>{
-        // Получаем id контейнера, в который была перемещена карточка
-        const dropTargetId = e.target.closest(".card__container").id;
-        // Получаем ссылку на перетаскиваемую карточку по её id
-        const card = document.querySelector(`[data-id="${draggedCardId}"]`);
-        // Проверяем, куда была перемещена карточка, и вызываем соответствующую функцию перемещения
-        if (dropTargetId === "todo__container" && !card.classList.contains("todo__card")) (0, _cardTransferJs.moveToTodo)(card);
-        else if (dropTargetId === "progress__container" && !card.classList.contains("progress__card")) (0, _cardTransferJs.moveToInProgress)(card);
-        else if (dropTargetId === "completed__container" && !card.classList.contains("completed__card")) (0, _cardTransferJs.moveToCompleted)(card);
-        // Удаляем класс 'dragging', чтобы вернуть карточке исходный вид
-        card.classList.remove("dragging");
+        if (e.target.closest(".card__container")) {
+            // Получаем id контейнера, в который была перемещена карточка
+            const dropTargetId = e.target.closest(".card__container").id;
+            // Получаем ссылку на перетаскиваемую карточку по её id
+            const card = document.querySelector(`[data-id="${draggedCardId}"]`);
+            // Проверяем, куда была перемещена карточка, и вызываем соответствующую функцию перемещения
+            if (dropTargetId === "todo__container" && !card.classList.contains("todo__card")) (0, _cardTransferJs.moveToTodo)(card);
+            else if (dropTargetId === "progress__container" && !card.classList.contains("progress__card")) (0, _cardTransferJs.moveToInProgress)(card);
+            else if (dropTargetId === "completed__container" && !card.classList.contains("completed__card")) (0, _cardTransferJs.moveToCompleted)(card);
+            // Удаляем класс 'dragging', чтобы вернуть карточке исходный вид
+            card.classList.remove("dragging");
+        }
     });
     document.addEventListener("dragend", (e)=>{
         // Удаляем класс 'dragging', чтобы вернуть карточке исходный вид
