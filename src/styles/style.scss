@@ -207,6 +207,9 @@ body {
     &:hover {
       background-color: $todo-background-color;
     }
+    &:focus-visible {
+      outline: none;
+    }
   }
 
   &__button {
@@ -283,6 +286,9 @@ body {
     transition: all 0.1s linear;
     &:hover {
       background-color: hsla(293, 62%, 56%, 0.65);
+    }
+    &:focus-visible {
+      outline: none;
     }
   }
 

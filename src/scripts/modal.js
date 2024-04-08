@@ -165,4 +165,10 @@ export function createModal(warningText, cancelFunction, confirmFunction, colorC
         confirmModal.remove();
       }
     })
-  }
+    // Обработчик события нажатия на кнопку 'Escape' в поле ввода задачи
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        confirmModal.remove();
+      }
+    });
+}

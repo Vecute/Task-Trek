@@ -700,6 +700,17 @@ document.body.addEventListener("click", function(e) {
         else if (card.parentElement === completedContainer) (0, _cardTransferJs.moveToInProgress)(card); // Перемещаем её в InProgress
     }
 });
+// Обработчик события нажатия на кнопку 'Escape'
+document.addEventListener("keydown", (e)=>{
+    if (e.key === "Escape") {
+        if (modal.style.display === "block") {
+            // Закрываем модальное окно
+            modal.style.display = "none";
+            // Обнуляем модальное окно
+            (0, _modalJs.modalReset)();
+        }
+    }
+});
 
 },{"./loadTasks.js":"gDMTf","./localStorage.js":"36iVX","./eventHandlers.js":"jCd3G","./modal.js":"1hEIt","./drag&drop.js":"5YQL7","./cardTransfer.js":"eRiW9","./hideCategories.js":"4PetE","./deleteAllCompleted.js":"8DQJW","./additionalFunctions.js":"1nMbn","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"gDMTf":[function(require,module,exports) {
 // Модуль с функциями загрузки и обновления списка задач
@@ -1055,6 +1066,10 @@ function createModal(warningText, cancelFunction, confirmFunction, colorCategory
     // Обработчик события клика для закрытия модального окна при клике вне его области
     document.addEventListener("click", (event)=>{
         if (event.target == confirmModal) confirmModal.remove();
+    });
+    // Обработчик события нажатия на кнопку 'Escape' в поле ввода задачи
+    document.addEventListener("keydown", (e)=>{
+        if (e.key === "Escape") confirmModal.remove();
     });
 }
 

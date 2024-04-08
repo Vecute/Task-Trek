@@ -231,6 +231,10 @@ body::-webkit-scrollbar-thumb {
   background-color: #5052d3a6;
 }
 
+.todo__add:focus-visible {
+  outline: none;
+}
+
 .todo__button {
   color: #fff;
   cursor: pointer;
@@ -315,6 +319,10 @@ body::-webkit-scrollbar-thumb {
 
 .completed__delete-all:hover {
   background-color: #c449d4a6;
+}
+
+.completed__delete-all:focus-visible {
+  outline: none;
 }
 
 .completed__button {

@@ -130,3 +130,15 @@ document.body.addEventListener('click', function(e) {
     }
   }
 });
+
+// Обработчик события нажатия на кнопку 'Escape'
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') {
+    if (modal.style.display === "block") {
+      // Закрываем модальное окно
+      modal.style.display = "none";
+      // Обнуляем модальное окно
+      modalReset();
+    }
+  }
+});
