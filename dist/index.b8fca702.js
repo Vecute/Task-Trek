@@ -663,11 +663,6 @@ document.body.addEventListener("click", function(e) {
         // Обнуляем модальное окно
         (0, _modalJs.modalReset)();
     }
-    if (e.target === modal) {
-        modal.style.display = "none";
-        // Обнуляем модальное окно
-        (0, _modalJs.modalReset)();
-    }
     if (e.target.closest(".todo__header") === todoHeader) (0, _hideCategoriesJs.hideTodo)();
     if (e.target.closest(".progress__header") === progressHeader) (0, _hideCategoriesJs.hideProgress)();
     if (e.target.closest(".completed__header") === completedHeader) (0, _hideCategoriesJs.hideCompleted)();
@@ -710,6 +705,18 @@ document.addEventListener("keydown", (e)=>{
             (0, _modalJs.modalReset)();
         }
     }
+});
+// Объявляем переменную mouseDown и устанавливаем ее значение в false. Это будет использоваться для отслеживания состояния кнопки мыши (нужно, чтобы при выделении текста и перемещении курсора за пределы модального окна, окно не скрывалось)
+let mouseDown = false;
+document.body.addEventListener("mousedown", function(e) {
+    if (e.target === modal) mouseDown = true; // Кнопка мыши была нажата внутри модального окна
+});
+document.body.addEventListener("mouseup", function(e) {
+    if (e.target === modal && mouseDown) {
+        modal.style.display = "none"; // Скрываем модальное окно
+        (0, _modalJs.modalReset)(); // Сбрасываем состояние модального окна
+    }
+    mouseDown = false; // Возвращаем mouseDown обратно в false
 });
 
 },{"./loadTasks.js":"gDMTf","./localStorage.js":"36iVX","./eventHandlers.js":"jCd3G","./modal.js":"1hEIt","./drag&drop.js":"5YQL7","./cardTransfer.js":"eRiW9","./hideCategories.js":"4PetE","./deleteAllCompleted.js":"8DQJW","./additionalFunctions.js":"1nMbn","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"gDMTf":[function(require,module,exports) {

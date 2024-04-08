@@ -80,11 +80,6 @@ document.body.addEventListener('click', function(e) {
     // Обнуляем модальное окно
     modalReset();
   }
-  if (e.target === modal) { // При нажатии в любом месте за пределами модального окна, оно скрывается
-    modal.style.display = "none";
-    // Обнуляем модальное окно
-    modalReset();
-  }
   if (e.target.closest('.todo__header') === todoHeader) { // Схлопывание колонки ToDo
     hideTodo();
   }
@@ -141,4 +136,21 @@ document.addEventListener('keydown', (e) => {
       modalReset();
     }
   }
+});
+
+// Объявляем переменную mouseDown и устанавливаем ее значение в false. Это будет использоваться для отслеживания состояния кнопки мыши (нужно, чтобы при выделении текста и перемещении курсора за пределы модального окна, окно не скрывалось)
+let mouseDown = false;
+
+document.body.addEventListener('mousedown', function(e) { // Добавляем обработчик событий для события 'mousedown'
+  if (e.target === modal) { // Проверка, кликнули ли по модальному окну
+    mouseDown = true; // Кнопка мыши была нажата внутри модального окна
+  }
+});
+
+document.body.addEventListener('mouseup', function(e) { // Добавляем обработчик событий для события 'mouseup'
+  if (e.target === modal && mouseDown) {  // Проверка, кликнули ли по модальному окну и была ли кнопка мыши нажата внутри модального окна
+    modal.style.display = "none"; // Скрываем модальное окно
+    modalReset(); // Сбрасываем состояние модального окна
+  }
+  mouseDown = false; // Возвращаем mouseDown обратно в false
 });
