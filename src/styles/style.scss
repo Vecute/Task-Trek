@@ -183,6 +183,11 @@ body {
   &__time {
     @include font($font-color, 16px, 400);
   }
+  &__edit {
+    &:focus-visible {
+      outline: none;
+    }
+  }
 }
 
 .todo {
