@@ -1,4 +1,4 @@
-29999
+30001
 78C:\Users\vecut\Desktop\Task Trek\node_modules\core-js\modules\library\_path.js133570309689762441 0
 83C:\Users\vecut\Desktop\Task Trek\node_modules\arraybuffer.prototype.slice\README.md133570309673468126 0
 61C:\Users\vecut\Desktop\Task Trek\src\scripts\eventHandlers.js133570309531949744 0
@@ -59,7 +59,7 @@
 68C:\Users\vecut\Desktop\Task Trek\node_modules\postcss-modules-values133570309665845746 1
 56C:\Users\vecut\Desktop\Task Trek\node_modules\randomfill133570309666916170 1
 76C:\Users\vecut\Desktop\Task Trek\node_modules\asn1.js\node_modules\bn.js\lib133570309655723076 1
-37C:\Users\vecut\Desktop\Task Trek\dist133570349719812752 1
+37C:\Users\vecut\Desktop\Task Trek\dist133570356541310792 1
 125C:\Users\vecut\Desktop\Task Trek\node_modules\postcss-modules-local-by-default\node_modules\postcss\docs\guidelines\plugin.md133570309670151146 0
 73C:\Users\vecut\Desktop\Task Trek\node_modules\xmlchars\xml\1.0\ed4.js.map133570309671183840 0
 55C:\Users\vecut\Desktop\Task Trek\node_modules\@mischnic133570309632568314 1
@@ -323,7 +323,7 @@
 142C:\Users\vecut\Desktop\Task Trek\node_modules\@parcel\optimizer-htmlnano\node_modules\postcss-svgo\node_modules\css-tree\lib\definition-syntax133570309692970075 1
 88C:\Users\vecut\Desktop\Task Trek\node_modules\caniuse-lite\data\features\css-rrggbbaa.js133570309691258063 0
 104C:\Users\vecut\Desktop\Task Trek\node_modules\@parcel\markdown-ansi\node_modules\color-name\package.json133570309653077346 0
-54C:\Users\vecut\Desktop\Task Trek\src\styles\style.scss133570337253298936 0
+54C:\Users\vecut\Desktop\Task Trek\src\styles\style.scss133570355618408903 0
 86C:\Users\vecut\Desktop\Task Trek\node_modules\es-abstract\2022\ToPropertyDescriptor.js133570309732783058 0
 120C:\Users\vecut\Desktop\Task Trek\node_modules\@parcel\optimizer-htmlnano\node_modules\svgo\plugins\removeRasterImages.js133570309681461618 0
 68C:\Users\vecut\Desktop\Task Trek\node_modules\request-promise-native133570309662189371 1
@@ -484,7 +484,7 @@
 114C:\Users\vecut\Desktop\Task Trek\node_modules\@parcel\transformer-posthtml\node_modules\color-convert\CHANGELOG.md133570309655723076 0
 68C:\Users\vecut\Desktop\Task Trek\node_modules\brfs\test\path_join.js133570309680831126 0
 88C:\Users\vecut\Desktop\Task Trek\node_modules\js-yaml\lib\js-yaml\schema\default_safe.js133570309668417933 0
-53C:\Users\vecut\Desktop\Task Trek\src\scripts\modal.js133570348352134957 0
+53C:\Users\vecut\Desktop\Task Trek\src\scripts\modal.js133570354877400909 0
 90C:\Users\vecut\Desktop\Task Trek\node_modules\postcss-modules-extract-imports\lib\index.js133570309657942237 0
 103C:\Users\vecut\Desktop\Task Trek\node_modules\postcss-modules-scope\node_modules\postcss\lib\comment.js133570309673198251 0
 70C:\Users\vecut\Desktop\Task Trek\node_modules\is-color-stop\.npmignore133570309655253429 0
@@ -750,7 +750,7 @@
 107C:\Users\vecut\Desktop\Task Trek\node_modules\postcss-calc\node_modules\postcss-value-parser\lib\index.d.ts133570309668715059 0
 76C:\Users\vecut\Desktop\Task Trek\node_modules\brfs\test\files\separators.txt133570309679792774 0
 82C:\Users\vecut\Desktop\Task Trek\node_modules\regex-not\node_modules\is-extendable133570309661932737 1
-55C:\Users\vecut\Desktop\Task Trek\dist\index.b8fca702.js133570349068189370 0
+55C:\Users\vecut\Desktop\Task Trek\dist\index.b8fca702.js133570355615017731 0
 83C:\Users\vecut\Desktop\Task Trek\node_modules\regex-not\node_modules\extend-shallow133570309659703599 1
 81C:\Users\vecut\Desktop\Task Trek\node_modules\unicode-property-aliases-ecmascript133570309659386448 1
 85C:\Users\vecut\Desktop\Task Trek\node_modules\es-abstract\2019\OrdinaryToPrimitive.js133570309727947922 0
@@ -4185,7 +4185,7 @@
 61C:\Users\vecut\Desktop\Task Trek\node_modules\resolve\.github133570309686763485 1
 110C:\Users\vecut\Desktop\Task Trek\node_modules\css-modules-loader-core\node_modules\supports-color\package.json133570309652702972 0
 64C:\Users\vecut\Desktop\Task Trek\node_modules\sshpk\lib\index.js133570309675072329 0
-48C:\Users\vecut\Desktop\Task Trek\dist\index.html133570349719812752 0
+48C:\Users\vecut\Desktop\Task Trek\dist\index.html133570356541310792 0
 70C:\Users\vecut\Desktop\Task Trek\node_modules\core-js\es6\parse-int.js133570309726952263 0
 116C:\Users\vecut\Desktop\Task Trek\node_modules\stylehacks\node_modules\postcss-selector-parser\dist\selectors\node.js133570309672982055 0
 61C:\Users\vecut\Desktop\Task Trek\node_modules\wcwidth\LICENSE133570309657150974 0
@@ -4498,7 +4498,7 @@
 79C:\Users\vecut\Desktop\Task Trek\node_modules\postcss-selector-parser\README.md133570309679163148 0
 92C:\Users\vecut\Desktop\Task Trek\node_modules\util\node_modules\inherits\inherits_browser.js133570309663481072 0
 77C:\Users\vecut\Desktop\Task Trek\node_modules\resolve-url\test\resolve-url.js133570309668201463 0
-61C:\Users\vecut\Desktop\Task Trek\dist\background.da6a7e8a.svg133570349067865046 0
+61C:\Users\vecut\Desktop\Task Trek\dist\background.da6a7e8a.svg133570355614602658 0
 68C:\Users\vecut\Desktop\Task Trek\node_modules\lodash\_mapCacheSet.js133570309691576033 0
 62C:\Users\vecut\Desktop\Task Trek\node_modules\miller-rabin\lib133570309666401368 1
 114C:\Users\vecut\Desktop\Task Trek\node_modules\@parcel\optimizer-htmlnano\node_modules\css-tree\lib\syntax\index.js133570309684092330 0
@@ -6653,7 +6653,7 @@
 68C:\Users\vecut\Desktop\Task Trek\node_modules\is-array-buffer\.nycrc133570309655253429 0
 91C:\Users\vecut\Desktop\Task Trek\node_modules\object-copy\node_modules\is-descriptor\.nycrc133570309660431418 0
 72C:\Users\vecut\Desktop\Task Trek\node_modules\static-module\test\vars.js133570309684826797 0
-59C:\Users\vecut\Desktop\Task Trek\dist\index.b8fca702.js.map133570349068250308 0
+59C:\Users\vecut\Desktop\Task Trek\dist\index.b8fca702.js.map133570355615017731 0
 113C:\Users\vecut\Desktop\Task Trek\node_modules\@parcel\optimizer-htmlnano\node_modules\svgo\plugins\removeAttrs.js133570309680202693 0
 132C:\Users\vecut\Desktop\Task Trek\node_modules\@parcel\transformer-css\node_modules\@parcel\utils\test\input\sourcemap\source-root.js133570309701733512 0
 76C:\Users\vecut\Desktop\Task Trek\node_modules\static-module\test\vars\one.js133570309685017943 0
@@ -6696,7 +6696,7 @@
 112C:\Users\vecut\Desktop\Task Trek\node_modules\@parcel\transformer-css\node_modules\@parcel\utils\src\Deferred.js133570309696326470 0
 64C:\Users\vecut\Desktop\Task Trek\node_modules\parcel-bundler\src133570309691890877 1
 86C:\Users\vecut\Desktop\Task Trek\node_modules\core-js\library\modules\_to-primitive.js133570309692087021 0
-58C:\Users\vecut\Desktop\Task Trek\dist\favicon.8dfb5803.svg133570349067902591 0
+58C:\Users\vecut\Desktop\Task Trek\dist\favicon.8dfb5803.svg133570355614608643 0
 79C:\Users\vecut\Desktop\Task Trek\node_modules\static-module\test\many\inline.js133570309681144931 0
 65C:\Users\vecut\Desktop\Task Trek\node_modules\assert-plus\AUTHORS133570309660275754 0
 104C:\Users\vecut\Desktop\Task Trek\node_modules\regenerate-unicode-properties\Script_Extensions\Makasar.js133570309690474176 0
@@ -7490,7 +7490,7 @@
 67C:\Users\vecut\Desktop\Task Trek\node_modules\es-errors\syntax.d.ts133570309674787636 0
 142C:\Users\vecut\Desktop\Task Trek\node_modules\@parcel\optimizer-htmlnano\node_modules\postcss-svgo\node_modules\domutils\lib\esm\legacy.js.map133570309678745422 0
 71C:\Users\vecut\Desktop\Task Trek\node_modules\setprototypeof\index.d.ts133570309655092477 0
-56C:\Users\vecut\Desktop\Task Trek\dist\index.38ec9247.css133570349068108221 0
+56C:\Users\vecut\Desktop\Task Trek\dist\index.38ec9247.css133570355614673914 0
 72C:\Users\vecut\Desktop\Task Trek\node_modules\acorn-globals\package.json133570309652469463 0
 66C:\Users\vecut\Desktop\Task Trek\node_modules\lodash\_baseMerge.js133570309684861183 0
 75C:\Users\vecut\Desktop\Task Trek\node_modules\deasync\bin\win32-ia32-node-7133570309688113639 1
@@ -28966,6 +28966,7 @@
 108C:\Users\vecut\Desktop\Task Trek\node_modules\@parcel\cache\node_modules\@parcel\utils\src\getCertificate.js133570309715482902 0
 108C:\Users\vecut\Desktop\Task Trek\node_modules\@parcel\cache\node_modules\@parcel\utils\src\getModuleParts.js133570309715639859 0
 100C:\Users\vecut\Desktop\Task Trek\node_modules\@parcel\cache\node_modules\@parcel\utils\src\stream.js133570309717379680 0
+56C:\Users\vecut\Desktop\Task Trek\dist\index.da9c6616.css133570356541310792 0
 103C:\Users\vecut\Desktop\Task Trek\node_modules\@parcel\cache\node_modules\@parcel\utils\src\TapStream.js133570309717379680 0
 78C:\Users\vecut\Desktop\Task Trek\.cache\5c\5607bc0424ffb62283e6420d2b8e0f.json133570309531059270 0
 102C:\Users\vecut\Desktop\Task Trek\node_modules\@parcel\cache\node_modules\@parcel\utils\src\throttle.js133570309717379680 0
@@ -29749,6 +29750,7 @@
 77C:\Users\vecut\Desktop\Task Trek\node_modules\@babel\helper-function-name\lib133570309660357052 1
 90C:\Users\vecut\Desktop\Task Trek\node_modules\@babel\helper-function-name\lib\index.js.map133570309661449362 0
 83C:\Users\vecut\Desktop\Task Trek\node_modules\@babel\helper-environment-visitor\lib133570309660357052 1
+55C:\Users\vecut\Desktop\Task Trek\dist\index.11393d2d.js133570356541310792 0
 87C:\Users\vecut\Desktop\Task Trek\node_modules\@babel\helper-environment-visitor\LICENSE133570309652579667 0
 96C:\Users\vecut\Desktop\Task Trek\node_modules\@babel\helper-environment-visitor\lib\index.js.map133570309660989105 0
 88C:\Users\vecut\Desktop\Task Trek\node_modules\@babel\helper-define-polyfill-provider\lib133570309675342835 1
@@ -29966,7 +29968,7 @@
 77C:\Users\vecut\Desktop\Task Trek\node_modules\.bin\update-browserslist-db.ps1133570309744223499 0
 61C:\Users\vecut\Desktop\Task Trek\dist\background.c795cccb.svg133570309531754738 0
 58C:\Users\vecut\Desktop\Task Trek\dist\favicon.caf9c731.svg133570309531778480 0
-60C:\Users\vecut\Desktop\Task Trek\dist\index.38ec9247.css.map133570349068199303 0
+60C:\Users\vecut\Desktop\Task Trek\dist\index.38ec9247.css.map133570355614720261 0
 56C:\Users\vecut\Desktop\Task Trek\dist\index.4700427e.css133570309531788787 0
 55C:\Users\vecut\Desktop\Task Trek\dist\index.96d1b38e.js133570309531798403 0
 56C:\Users\vecut\Desktop\Task Trek\dist\index.aa19186f.css133570349719812752 0

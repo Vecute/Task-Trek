@@ -928,7 +928,7 @@ function createTaskModal() {
     const taskModal = document.createElement("div"); // Создаём div для модального окна
     // Добавляем HTML-структуру модального окна, включая поля ввода, кнопки и селектор
     taskModal.innerHTML = `<div class="modal__content"> 
-    <div class="card todo__card modal__card">
+    <div class="todo__card modal__card">
         <input class="modal__title" placeholder="Title" id="modal__title"></input>
         <textarea class="modal__description" rows="10" placeholder="Description" id="modal__description"></textarea>
         <div class="modal__bottom">

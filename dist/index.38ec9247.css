@@ -395,7 +395,9 @@ body::-webkit-scrollbar-thumb {
 }
 
 .modal__card {
+  border-radius: 10px;
   flex-direction: column;
+  margin: 10px;
   display: flex;
 }
 
