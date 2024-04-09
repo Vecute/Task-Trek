@@ -1,4 +1,4 @@
-// Модуль с функциями загрузки и обновления списка задач
+// Модуль с функциями загрузки, обновления списка задач и создания карточки
 
 // Импортируем сторонние модули
 import {todoContainer, progressContainer, completedContainer} from './main.js'
@@ -45,7 +45,7 @@ export function updateCounts() {
     addWhiteLine()
 }
 
-function createCard(status, { id, title, description, time, userName }) { // Функция для создания HTML-кода карточки задачи (используем деструктуризацию)
+export function createCard(status, { id, title, description, time, userName }) { // Функция для создания HTML-кода карточки задачи (используем деструктуризацию)
   return `
     <div class="card ${status}__card" data-id="${id}" draggable="true">
       <div class="card__buttons">

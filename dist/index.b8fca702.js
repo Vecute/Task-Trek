@@ -684,15 +684,29 @@ document.body.addEventListener("click", function(e) {
         // Обновляем видимость кнопки удаления всех карточек
         (0, _additionalFunctionsJs.updateDeleteButtonVisibility)();
     }
-    if (e.target.classList.contains("card__forward")) {
-        const card = e.target.closest(".card"); // Находим карточку, к которой относится кнопка
-        if (card.parentElement === todoContainer) (0, _cardTransferJs.moveToInProgress)(card); // Перемещаем её в InProgress
-        else if (card.parentElement === progressContainer) (0, _cardTransferJs.moveToCompleted)(card); // Перемещаем её в Completed
-    }
-    if (e.target.classList.contains("card__back")) {
-        const card = e.target.closest(".card"); // Находим карточку, к которой относится кнопка
-        if (card.parentElement === progressContainer) (0, _cardTransferJs.moveToTodo)(card); // Перемещаем её в ToDo
-        else if (card.parentElement === completedContainer) (0, _cardTransferJs.moveToInProgress)(card); // Перемещаем её в InProgress
+    if (e.target.classList.contains("card__forward") || e.target.classList.contains("card__back")) {
+        const card = e.target.closest(".card"); // Находим карточку, к которой относится кнопка (ближайший родительский элемент с классом 'card')
+        const currentStatus = card.parentElement.id.replace("__container", ""); // Получаем текущий статус из ID родительского контейнера (удаляем '__container' из ID)
+        // Определяем новый статус
+        let newStatus; // Объявляем переменную для хранения нового статуса
+        if (e.target.classList.contains("card__forward")) switch(currentStatus){
+            case "todo":
+                newStatus = "progress"; // Если текущий статус 'todo', новый статус будет 'progress' 
+                break; // Выходим из switch
+            case "progress":
+                newStatus = "completed"; // Если текущий статус 'progress', новый статус будет 'completed'
+                break; // Выходим из switch
+        }
+        else if (e.target.classList.contains("card__back")) switch(currentStatus){
+            case "progress":
+                newStatus = "todo"; // Если текущий статус 'progress', новый статус будет 'todo'
+                break; // Выходим из switch
+            case "completed":
+                newStatus = "progress"; // Если текущий статус 'completed', новый статус будет 'progress'
+                break; // Выходим из switch
+        }
+        // Перемещаем карточку, если новый статус определен
+        if (newStatus) (0, _cardTransferJs.moveCard)(card, newStatus); // Вызываем функцию moveCard, передавая карточку и новый статус
     }
 });
 // Обработчик события нажатия на кнопку 'Escape'
@@ -719,8 +733,8 @@ document.body.addEventListener("mouseup", function(e) {
     mouseDown = false; // Возвращаем mouseDown обратно в false
 });
 
-},{"./loadTasks.js":"gDMTf","./localStorage.js":"36iVX","./eventHandlers.js":"jCd3G","./modal.js":"1hEIt","./drag&drop.js":"5YQL7","./cardTransfer.js":"eRiW9","./hideCategories.js":"4PetE","./deleteAllCompleted.js":"8DQJW","./additionalFunctions.js":"1nMbn","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"gDMTf":[function(require,module,exports) {
-// Модуль с функциями загрузки и обновления списка задач
+},{"./loadTasks.js":"gDMTf","./localStorage.js":"36iVX","./eventHandlers.js":"jCd3G","./modal.js":"1hEIt","./drag&drop.js":"5YQL7","./hideCategories.js":"4PetE","./deleteAllCompleted.js":"8DQJW","./additionalFunctions.js":"1nMbn","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./cardTransfer.js":"eRiW9"}],"gDMTf":[function(require,module,exports) {
+// Модуль с функциями загрузки, обновления списка задач и создания карточки
 // Импортируем сторонние модули
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
@@ -728,6 +742,7 @@ parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "loadTasks", ()=>loadTasks);
 // Функция для обновления счетчиков задач в категориях
 parcelHelpers.export(exports, "updateCounts", ()=>updateCounts);
+parcelHelpers.export(exports, "createCard", ()=>createCard);
 var _mainJs = require("./main.js");
 var _localStorageJs = require("./localStorage.js");
 var _additionalFunctionsJs = require("./additionalFunctions.js");
@@ -1088,14 +1103,14 @@ function createModal(warningText, cancelFunction, confirmFunction, colorCategory
 // Импортируем сторонние модули
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
-// Функции для добавления обработчиков событий на Drag&Drop
+// Функция для добавления обработчиков событий на Drag&Drop
 parcelHelpers.export(exports, "addEventListenerForDragAndDrop", ()=>addEventListenerForDragAndDrop);
 var _cardTransferJs = require("./cardTransfer.js");
-let draggedCardId = null;
+let draggedCardId = null; // Глобальная переменная для хранения ID перетаскиваемой карточки
 function addEventListenerForDragAndDrop() {
     // Добавляем обработчики событий для drag and drop
     document.addEventListener("dragstart", (e)=>{
-        // Сохраняем id перетаскиваемой карточки
+        // Получаем ID карточки из атрибута data-id
         draggedCardId = e.target.dataset.id;
         // Добавляем класс 'dragging' для визуального эффекта
         e.target.classList.add("dragging");
@@ -1110,10 +1125,21 @@ function addEventListenerForDragAndDrop() {
             const dropTargetId = e.target.closest(".card__container").id;
             // Получаем ссылку на перетаскиваемую карточку по её id
             const card = document.querySelector(`[data-id="${draggedCardId}"]`);
-            // Проверяем, куда была перемещена карточка, и вызываем соответствующую функцию перемещения
-            if (dropTargetId === "todo__container" && !card.classList.contains("todo__card")) (0, _cardTransferJs.moveToTodo)(card);
-            else if (dropTargetId === "progress__container" && !card.classList.contains("progress__card")) (0, _cardTransferJs.moveToInProgress)(card);
-            else if (dropTargetId === "completed__container" && !card.classList.contains("completed__card")) (0, _cardTransferJs.moveToCompleted)(card);
+            // Определяем новый статус на основе id контейнера
+            let newStatus;
+            switch(dropTargetId){
+                case "todo__container":
+                    newStatus = "todo";
+                    break;
+                case "progress__container":
+                    newStatus = "progress";
+                    break;
+                case "completed__container":
+                    newStatus = "completed";
+                    break;
+            }
+            // Вызываем функцию moveCard с новым статусом
+            (0, _cardTransferJs.moveCard)(card, newStatus);
             // Удаляем класс 'dragging', чтобы вернуть карточке исходный вид
             card.classList.remove("dragging");
         }
@@ -1125,136 +1151,65 @@ function addEventListenerForDragAndDrop() {
 }
 
 },{"./cardTransfer.js":"eRiW9","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"eRiW9":[function(require,module,exports) {
-// Модуль с функциями для перетаскивания карточек между разделами
+// Модуль с функцией для перетаскивания карточек между разделами
 // Импортируем сторонние модули
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "moveToTodo", ()=>moveToTodo);
-parcelHelpers.export(exports, "moveToInProgress", ()=>moveToInProgress);
-parcelHelpers.export(exports, "moveToCompleted", ()=>moveToCompleted);
+parcelHelpers.export(exports, "moveCard", ()=>moveCard);
 var _mainJs = require("./main.js");
 var _loadTasksJs = require("./loadTasks.js");
 var _localStorageJs = require("./localStorage.js");
 var _additionalFunctionsJs = require("./additionalFunctions.js");
 var _modalJs = require("./modal.js");
-function moveToTodo(card) {
+function moveCard(card, newStatus) {
     // Получаем ссылки на поля карточки и id
-    const currentTitle = card.getElementsByClassName("card__title")[0].innerHTML;
-    const currentDescription = card.getElementsByClassName("card__description")[0].innerHTML;
-    const currentTime = card.getElementsByClassName("card__time")[0].innerHTML;
-    const currentUser = card.getElementsByClassName("card__user")[0].innerHTML;
-    const id = Number(card.dataset.id);
-    // Создаём такую же карточку в новом разделе
-    (0, _mainJs.todoContainer).innerHTML += `<div class="card todo__card" data-id="${id}" draggable="true">
-                                  <div class="card__buttons">
-                                    <button class="card__edit todo__button">Edit</button>
-                                    <button class="card__delete todo__button">Delete</button>
-                                    <button class="card__forward todo__button">Start</button>
-                                  </div>
-                                  <h3 class="card__title">${currentTitle}</h3>
-                                  <p class="card__description">${currentDescription}</p>
-                                  <div class="card__bottom">
-                                    <p class="card__user">${currentUser}</p>
-                                    <p class="card__time">${currentTime}</p>
-                                  </div>
-                                </div>`;
-    // Удаляем старую карточку
-    card.remove(card);
-    // Получаем текущие задачи из Local Storage
-    const tasks = (0, _localStorageJs.getDate)();
-    // Находим задачу, которую нужно обновить
-    const taskToUpdate = tasks.find((task)=>task.id === id);
-    // Обновляем поле 'status'
-    taskToUpdate.status = "todo";
-    // Обновляем Local Storage с новым массивом задач
-    (0, _localStorageJs.setDate)(tasks);
-    // Обновляем счётчики
-    (0, _loadTasksJs.updateCounts)();
-    // Обновляем видимость кнопки удаления всех карточек
-    (0, _additionalFunctionsJs.updateDeleteButtonVisibility)();
-}
-function moveToInProgress(card) {
-    const cancelFunction = ()=>{
-        confirmModal.remove(); // Закрываем модальное окно
-    };
-    const confirmFunction = ()=>{
-        confirmModal.remove(); // Закрываем модальное окно
-        toProgressWhatever(); // Перемещаем карточку, если подтвердили превышение лимита
-    };
-    if ((0, _mainJs.progressContainer).children.length > 5) // Создаем модальное окно с подтверждением
-    (0, _modalJs.createModal)("You have accumulated unfulfilled tasks. Are you sure you want to add another task?", cancelFunction, confirmFunction, "Progress");
-    else toProgressWhatever() // Перемещаем карточку если лимита нету
-    ;
-    function toProgressWhatever() {
-        // Получаем ссылки на поля карточки и id
-        const currentTitle = card.getElementsByClassName("card__title")[0].innerHTML;
-        const currentDescription = card.getElementsByClassName("card__description")[0].innerHTML;
-        const currentTime = card.getElementsByClassName("card__time")[0].innerHTML;
-        const currentUser = card.getElementsByClassName("card__user")[0].innerHTML;
-        const id = Number(card.dataset.id);
-        // Создаём такую же карточку в новом разделе
-        (0, _mainJs.progressContainer).innerHTML += `<div class="card progress__card" data-id="${id}" draggable="true">
-                                        <div class="card__buttons">
-                                          <button class="card__back progress__button">Back</button>
-                                          <button class="card__forward progress__button">Complete</button>
-                                        </div>
-                                        <h3 class="card__title">${currentTitle}</h3>
-                                        <p class="card__description">${currentDescription}</p>
-                                        <div class="card__bottom">
-                                          <p class="card__user">${currentUser}</p>
-                                          <p class="card__time">${currentTime}</p>
-                                        </div>
-                                      </div>`;
+    const currentTitleElement = card.getElementsByClassName("card__title")[0]; // Получаем элемент заголовка карточки
+    const currentTitle = currentTitleElement.innerHTML; // Извлекаем текст заголовка из элемента
+    const currentDescriptionElement = card.getElementsByClassName("card__description")[0]; // Получаем элемент описания карточки
+    const currentDescription = currentDescriptionElement.innerHTML; // Извлекаем текст описания из элемента
+    const currentTimeElement = card.getElementsByClassName("card__time")[0]; // Получаем элемент времени карточки
+    const currentTime = currentTimeElement.innerHTML; // Извлекаем текст времени из элемента
+    const currentUserElement = card.getElementsByClassName("card__user")[0]; // Получаем элемент пользователя карточки
+    const currentUser = currentUserElement.innerHTML; // Извлекаем текст имени пользователя из элемента
+    const id = Number(card.dataset.id); // Получаем ID карточки из атрибута data-id и преобразуем его в число
+    // Определяем контейнер в зависимости от нового статуса
+    let newContainer; // Объявляем переменную для хранения контейнера, куда будет перемещена карточка
+    if (newStatus === "todo") newContainer = (0, _mainJs.todoContainer); // Если новый статус 'todo', назначаем контейнер todoContainer
+    else if (newStatus === "progress") newContainer = (0, _mainJs.progressContainer); // Если новый статус 'progress', назначаем контейнер progressContainer 
+    else if (newStatus === "completed") newContainer = (0, _mainJs.completedContainer); // Если новый статус 'completed', назначаем контейнер completedContainer
+    // Проверка лимита для In Progress
+    if (newStatus === "progress" && (0, _mainJs.progressContainer).children.length > 5) (0, _modalJs.createModal)("You have accumulated unfulfilled tasks. Are you sure you want to add another task?", function() {
+        confirmModal.remove(); // Функция отмены: удаляем модальное окно
+    }, function() {
+        confirmModal.remove(); // Функция подтверждения: удаляем модальное окно и переносим карточку
+        moveCardToContainer();
+    }, "Progress" // Передаём класс для установки цветов модального окна
+    );
+    else moveCardToContainer(); // Если лимит не превышен или новый статус не 'progress', сразу перемещаем карточку
+    function moveCardToContainer() {
+        // Создаем новую карточку с помощью createCard()
+        const newCardHtml = (0, _loadTasksJs.createCard)(newStatus, {
+            id: id,
+            title: currentTitle,
+            description: currentDescription,
+            time: currentTime,
+            userName: currentUser
+        });
+        // Вставляем новую карточку в нужный контейнер
+        newContainer.innerHTML = newContainer.innerHTML + newCardHtml;
         // Удаляем старую карточку
-        card.remove(card);
-        // Получаем текущие задачи из Local Storage
-        const tasks = (0, _localStorageJs.getDate)();
-        // Находим задачу, которую нужно обновить
-        const taskToUpdate = tasks.find((task)=>task.id === id);
-        // Обновляем поле 'status'
-        taskToUpdate.status = "progress";
-        // Обновляем Local Storage с новым массивом задач
-        (0, _localStorageJs.setDate)(tasks);
-        // Обновляем счётчики
-        (0, _loadTasksJs.updateCounts)();
-        // Обновляем видимость кнопки удаления всех карточек
-        (0, _additionalFunctionsJs.updateDeleteButtonVisibility)();
+        card.remove();
+        // Обновляем данные в Local Storage
+        const tasks = (0, _localStorageJs.getDate)(); // Получаем массив задач из Local Storage
+        const taskToUpdate = tasks.find(function(task) {
+            return task.id === id; // Условие поиска: ID задачи совпадает с ID перемещаемой карточки
+        });
+        taskToUpdate.status = newStatus; // Обновляем статус задачи на новый
+        (0, _localStorageJs.setDate)(tasks); // Сохраняем обновленный массив задач в Local Storage
+        // Обновляем счетчики и видимость кнопки удаления
+        (0, _loadTasksJs.updateCounts)(); // Обновляем счетчики задач в каждом статусе
+        (0, _additionalFunctionsJs.updateDeleteButtonVisibility)(); // Обновляем видимость кнопки "Удалить все"
     }
-}
-function moveToCompleted(card) {
-    // Получаем ссылки на поля карточки и id
-    const currentTitle = card.getElementsByClassName("card__title")[0].innerHTML;
-    const currentDescription = card.getElementsByClassName("card__description")[0].innerHTML;
-    const currentTime = card.getElementsByClassName("card__time")[0].innerHTML;
-    const currentUser = card.getElementsByClassName("card__user")[0].innerHTML;
-    const id = Number(card.dataset.id);
-    // Создаём такую же карточку в новом разделе
-    (0, _mainJs.completedContainer).innerHTML += `<div class="card completed__card" data-id="${id}" draggable="true">
-                                      <div class="card__buttons">
-                                        <button class="card__back completed__button">Back</button>
-                                        <button class="card__delete completed__button">Delete</button>
-                                      </div>
-                                      <h3 class="card__title">${currentTitle}</h3>
-                                      <p class="card__description">${currentDescription}</p>
-                                      <div class="card__bottom">
-                                        <p class="card__user">${currentUser}</p>
-                                        <p class="card__time">${currentTime}</p>
-                                      </div>
-                                    </div>`;
-    // Удаляем старую карточку
-    card.remove(card);
-    // Получаем текущие задачи из Local Storage
-    const tasks = (0, _localStorageJs.getDate)();
-    // Находим задачу, которую нужно обновить
-    const taskToUpdate = tasks.find((task)=>task.id === id);
-    // Обновляем поле 'status'
-    taskToUpdate.status = "completed";
-    // Обновляем Local Storage с новым массивом задач
-    (0, _localStorageJs.setDate)(tasks);
-    // Обновляем счётчики
-    (0, _loadTasksJs.updateCounts)();
-    // Обновляем видимость кнопки удаления всех карточек
-    (0, _additionalFunctionsJs.updateDeleteButtonVisibility)();
 }
 
 },{"./main.js":"3cYfC","./loadTasks.js":"gDMTf","./localStorage.js":"36iVX","./additionalFunctions.js":"1nMbn","./modal.js":"1hEIt","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"4PetE":[function(require,module,exports) {

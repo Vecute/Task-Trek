@@ -6,7 +6,7 @@ import {getDate, setDate} from './localStorage.js';
 import {addWindowEventListeners} from './eventHandlers.js';
 import {createTaskModal, modalReset, taskModalConfirm} from './modal.js';
 import {addEventListenerForDragAndDrop} from './drag&drop.js';
-import {moveToTodo, moveToInProgress, moveToCompleted} from './cardTransfer.js';
+import {moveCard} from './cardTransfer.js';
 import {hideTodo, hideProgress, hideCompleted} from './hideCategories.js';
 import {deleteAllCompleted} from './deleteAllCompleted.js';
 import {updateDeleteButtonVisibility} from './additionalFunctions.js';
@@ -108,20 +108,37 @@ document.body.addEventListener('click', function(e) {
     updateDeleteButtonVisibility();
   }
 
-  if (e.target.classList.contains('card__forward')) { // Проверяем, была ли нажата кнопка "вперед"
-    const card = e.target.closest('.card');  // Находим карточку, к которой относится кнопка
-    if (card.parentElement === todoContainer) { // Если карточка находится в ToDo
-      moveToInProgress(card); // Перемещаем её в InProgress
-    } else if (card.parentElement === progressContainer) { // Если карточка находится в InProgress
-      moveToCompleted(card); // Перемещаем её в Completed
+  if (e.target.classList.contains('card__forward') || e.target.classList.contains('card__back')) {
+    const card = e.target.closest('.card'); // Находим карточку, к которой относится кнопка (ближайший родительский элемент с классом 'card')
+    const currentStatus = card.parentElement.id.replace('__container', ''); // Получаем текущий статус из ID родительского контейнера (удаляем '__container' из ID)
+
+    // Определяем новый статус
+    let newStatus; // Объявляем переменную для хранения нового статуса
+    if (e.target.classList.contains('card__forward')) {// Если нажата кнопка "вперед"
+      switch (currentStatus) { // Используем switch для определения нового статуса на основе текущего
+        case 'todo':
+          newStatus = 'progress'; // Если текущий статус 'todo', новый статус будет 'progress' 
+          break; // Выходим из switch
+        case 'progress':
+          newStatus = 'completed'; // Если текущий статус 'progress', новый статус будет 'completed'
+          break; // Выходим из switch
+        // Для "completed" не нужно ничего делать, так как это конечный статус
+      }
+    } else if (e.target.classList.contains('card__back')) { // Если нажата кнопка "назад"
+      switch (currentStatus) { // Используем switch для определения нового статуса на основе текущего
+        case 'progress':
+          newStatus = 'todo'; // Если текущий статус 'progress', новый статус будет 'todo'
+          break; // Выходим из switch
+        case 'completed':
+          newStatus = 'progress'; // Если текущий статус 'completed', новый статус будет 'progress'
+          break; // Выходим из switch
+        // Для "todo" не нужно ничего делать, так как это начальный статус
+      }
     }
-  }
-  if (e.target.classList.contains('card__back')) { // Проверяем, была ли нажата кнопка "назад"
-    const card = e.target.closest('.card'); // Находим карточку, к которой относится кнопка
-    if (card.parentElement === progressContainer) { // Если карточка находится в InProgress
-      moveToTodo(card); // Перемещаем её в ToDo
-    } else if (card.parentElement === completedContainer) { // Если карточка находится в Completed
-      moveToInProgress(card); // Перемещаем её в InProgress
+
+    // Перемещаем карточку, если новый статус определен
+    if (newStatus) { // Проверяем, был ли определен новый статус (т.е. не остался undefined)
+      moveCard(card, newStatus); // Вызываем функцию moveCard, передавая карточку и новый статус
     }
   }
 });

@@ -1,131 +1,77 @@
-// Модуль с функциями для перетаскивания карточек между разделами
+// Модуль с функцией для перетаскивания карточек между разделами
 
 // Импортируем сторонние модули
 import {todoContainer, progressContainer, completedContainer} from './main.js'
-import {updateCounts} from './loadTasks.js';
+import {updateCounts, createCard} from './loadTasks.js';
 import {getDate, setDate} from './localStorage.js';
 import {updateDeleteButtonVisibility} from './additionalFunctions.js';
 import {createModal} from './modal.js';
 
-export function moveToTodo(card) { // Функция перемещения карточки в ToDo
+export function moveCard(card, newStatus) {
     // Получаем ссылки на поля карточки и id
-    const currentTitle = card.getElementsByClassName('card__title')[0].innerHTML;
-    const currentDescription = card.getElementsByClassName('card__description')[0].innerHTML;
-    const currentTime = card.getElementsByClassName('card__time')[0].innerHTML;
-    const currentUser = card.getElementsByClassName('card__user')[0].innerHTML;
-    const id = Number(card.dataset.id);
-    // Создаём такую же карточку в новом разделе
-    todoContainer.innerHTML += `<div class="card todo__card" data-id="${id}" draggable="true">
-                                  <div class="card__buttons">
-                                    <button class="card__edit todo__button">Edit</button>
-                                    <button class="card__delete todo__button">Delete</button>
-                                    <button class="card__forward todo__button">Start</button>
-                                  </div>
-                                  <h3 class="card__title">${currentTitle}</h3>
-                                  <p class="card__description">${currentDescription}</p>
-                                  <div class="card__bottom">
-                                    <p class="card__user">${currentUser}</p>
-                                    <p class="card__time">${currentTime}</p>
-                                  </div>
-                                </div>`;
-    // Удаляем старую карточку
-    card.remove(card);
-    // Получаем текущие задачи из Local Storage
-    const tasks = getDate();
-    // Находим задачу, которую нужно обновить
-    const taskToUpdate = tasks.find(task => task.id === id);
-    // Обновляем поле 'status'
-    taskToUpdate.status = 'todo';
-    // Обновляем Local Storage с новым массивом задач
-    setDate(tasks);
-    // Обновляем счётчики
-    updateCounts();
-    // Обновляем видимость кнопки удаления всех карточек
-    updateDeleteButtonVisibility();
-  };
+    const currentTitleElement = card.getElementsByClassName('card__title')[0]; // Получаем элемент заголовка карточки
+    const currentTitle = currentTitleElement.innerHTML; // Извлекаем текст заголовка из элемента
+    const currentDescriptionElement = card.getElementsByClassName('card__description')[0]; // Получаем элемент описания карточки
+    const currentDescription = currentDescriptionElement.innerHTML; // Извлекаем текст описания из элемента
+    const currentTimeElement = card.getElementsByClassName('card__time')[0]; // Получаем элемент времени карточки
+    const currentTime = currentTimeElement.innerHTML; // Извлекаем текст времени из элемента
+    const currentUserElement = card.getElementsByClassName('card__user')[0]; // Получаем элемент пользователя карточки
+    const currentUser = currentUserElement.innerHTML; // Извлекаем текст имени пользователя из элемента
+    const id = Number(card.dataset.id); // Получаем ID карточки из атрибута data-id и преобразуем его в число
   
-  export function moveToInProgress(card) { // Функция перемещения карточки в In Progress
-    const cancelFunction = () => { // Функция для отмены в модальном окне
-      confirmModal.remove(); // Закрываем модальное окно
-    };
-    const confirmFunction = () => { // Функция для подтверждения в модальном окне
-      confirmModal.remove(); // Закрываем модальное окно
-      toProgressWhatever(); // Перемещаем карточку, если подтвердили превышение лимита
-    }
-    if (progressContainer.children.length > 5) { // Если в активных задачах уже 6 задач
-      // Создаем модальное окно с подтверждением
-      createModal('You have accumulated unfulfilled tasks. Are you sure you want to add another task?', cancelFunction, confirmFunction, 'Progress');
+    // Определяем контейнер в зависимости от нового статуса
+    let newContainer; // Объявляем переменную для хранения контейнера, куда будет перемещена карточка
+    if (newStatus === 'todo') {
+      newContainer = todoContainer; // Если новый статус 'todo', назначаем контейнер todoContainer
+    } else if (newStatus === 'progress') {
+      newContainer = progressContainer; // Если новый статус 'progress', назначаем контейнер progressContainer 
+    } else if (newStatus === 'completed') {
+      newContainer = completedContainer; // Если новый статус 'completed', назначаем контейнер completedContainer
+    } 
+  
+    // Проверка лимита для In Progress
+    if (newStatus === 'progress' && progressContainer.children.length > 5) {
+      createModal(
+        'You have accumulated unfulfilled tasks. Are you sure you want to add another task?',
+        function () {
+          confirmModal.remove(); // Функция отмены: удаляем модальное окно
+        },
+        function () {
+          confirmModal.remove(); // Функция подтверждения: удаляем модальное окно и переносим карточку
+          moveCardToContainer();
+        },
+        'Progress' // Передаём класс для установки цветов модального окна
+      );
     } else {
-      toProgressWhatever() // Перемещаем карточку если лимита нету
+      moveCardToContainer(); // Если лимит не превышен или новый статус не 'progress', сразу перемещаем карточку
     }
-    function toProgressWhatever() { // Функция для продолжения перемещения в колонку In Progress
-      // Получаем ссылки на поля карточки и id
-      const currentTitle = card.getElementsByClassName('card__title')[0].innerHTML;
-      const currentDescription = card.getElementsByClassName('card__description')[0].innerHTML;
-      const currentTime = card.getElementsByClassName('card__time')[0].innerHTML;
-      const currentUser = card.getElementsByClassName('card__user')[0].innerHTML;
-      const id = Number(card.dataset.id);
-      // Создаём такую же карточку в новом разделе
-      progressContainer.innerHTML += `<div class="card progress__card" data-id="${id}" draggable="true">
-                                        <div class="card__buttons">
-                                          <button class="card__back progress__button">Back</button>
-                                          <button class="card__forward progress__button">Complete</button>
-                                        </div>
-                                        <h3 class="card__title">${currentTitle}</h3>
-                                        <p class="card__description">${currentDescription}</p>
-                                        <div class="card__bottom">
-                                          <p class="card__user">${currentUser}</p>
-                                          <p class="card__time">${currentTime}</p>
-                                        </div>
-                                      </div>`;
+  
+    function moveCardToContainer() { // Функция для перемещения карточки в новый контейнер
+      // Создаем новую карточку с помощью createCard()
+      const newCardHtml = createCard(newStatus, { // Создаем HTML-код новой карточки с нужным статусом и данными
+        id: id,
+        title: currentTitle,
+        description: currentDescription,
+        time: currentTime,
+        userName: currentUser
+      });
+  
+      // Вставляем новую карточку в нужный контейнер
+      newContainer.innerHTML = newContainer.innerHTML + newCardHtml;
+  
       // Удаляем старую карточку
-      card.remove(card);
-      // Получаем текущие задачи из Local Storage
-      const tasks = getDate();
-      // Находим задачу, которую нужно обновить
-      const taskToUpdate = tasks.find(task => task.id === id);
-      // Обновляем поле 'status'
-      taskToUpdate.status = 'progress';
-      // Обновляем Local Storage с новым массивом задач
-      setDate(tasks);
-      // Обновляем счётчики
-      updateCounts();
-      // Обновляем видимость кнопки удаления всех карточек
-      updateDeleteButtonVisibility();
+      card.remove();
+  
+      // Обновляем данные в Local Storage
+      const tasks = getDate(); // Получаем массив задач из Local Storage
+      const taskToUpdate = tasks.find(function (task) { // Находим задачу, которую нужно обновить
+        return task.id === id; // Условие поиска: ID задачи совпадает с ID перемещаемой карточки
+      });
+      taskToUpdate.status = newStatus; // Обновляем статус задачи на новый
+      setDate(tasks); // Сохраняем обновленный массив задач в Local Storage
+  
+      // Обновляем счетчики и видимость кнопки удаления
+      updateCounts(); // Обновляем счетчики задач в каждом статусе
+      updateDeleteButtonVisibility(); // Обновляем видимость кнопки "Удалить все"
     }
   }
-  export function moveToCompleted(card) { // Функция перемещения карточки в Completed
-    // Получаем ссылки на поля карточки и id
-    const currentTitle = card.getElementsByClassName('card__title')[0].innerHTML;
-    const currentDescription = card.getElementsByClassName('card__description')[0].innerHTML;
-    const currentTime = card.getElementsByClassName('card__time')[0].innerHTML;
-    const currentUser = card.getElementsByClassName('card__user')[0].innerHTML;
-    const id = Number(card.dataset.id);
-    // Создаём такую же карточку в новом разделе
-    completedContainer.innerHTML += `<div class="card completed__card" data-id="${id}" draggable="true">
-                                      <div class="card__buttons">
-                                        <button class="card__back completed__button">Back</button>
-                                        <button class="card__delete completed__button">Delete</button>
-                                      </div>
-                                      <h3 class="card__title">${currentTitle}</h3>
-                                      <p class="card__description">${currentDescription}</p>
-                                      <div class="card__bottom">
-                                        <p class="card__user">${currentUser}</p>
-                                        <p class="card__time">${currentTime}</p>
-                                      </div>
-                                    </div>`;
-    // Удаляем старую карточку
-    card.remove(card);
-    // Получаем текущие задачи из Local Storage
-    const tasks = getDate();
-    // Находим задачу, которую нужно обновить
-    const taskToUpdate = tasks.find(task => task.id === id);
-    // Обновляем поле 'status'
-    taskToUpdate.status = 'completed';
-    // Обновляем Local Storage с новым массивом задач
-    setDate(tasks);
-    // Обновляем счётчики
-    updateCounts();
-    // Обновляем видимость кнопки удаления всех карточек
-    updateDeleteButtonVisibility();
-  };
