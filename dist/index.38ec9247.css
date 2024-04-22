@@ -201,14 +201,14 @@ body::-webkit-scrollbar-thumb {
 }
 
 .card__user {
-  color: #fff;
+  color: #ffffff9e;
   padding-right: 10px;
   font-size: 14px;
   font-weight: 400;
 }
 
 .card__date {
-  color: #fff;
+  color: #ffffff9e;
   font-size: 14px;
   font-weight: 400;
 }

@@ -178,12 +178,12 @@ body {
   }
 
   &__user {
-    @include font($font-color, 14px, 400);
+    @include font($secondary-font-color, 14px, 400);
     padding-right: 10px;
   }
 
   &__date {
-    @include font($font-color, 14px, 400);
+    @include font($secondary-font-color, 14px, 400);
   }
   &__edit {
     &:focus-visible {
