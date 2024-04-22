@@ -21,13 +21,15 @@ export function moveCard(card, newStatus) {
   
     // Определяем контейнер в зависимости от нового статуса
     let newContainer; // Объявляем переменную для хранения контейнера, куда будет перемещена карточка
-    if (newStatus === 'todo') {
+    if (newStatus === 'todo' && !card.classList.contains('todo__card')) {
       newContainer = todoContainer; // Если новый статус 'todo', назначаем контейнер todoContainer
-    } else if (newStatus === 'progress') {
+    } else if (newStatus === 'progress' && !card.classList.contains('progress__card')) {
       newContainer = progressContainer; // Если новый статус 'progress', назначаем контейнер progressContainer 
-    } else if (newStatus === 'completed') {
+    } else if (newStatus === 'completed' && !card.classList.contains('completed__card')) {
       newContainer = completedContainer; // Если новый статус 'completed', назначаем контейнер completedContainer
-    } 
+    } else {
+      return; // Завершаем функцию, если перемещение происходит в свой же контейнер
+    }
   
     // Проверка лимита для In Progress
     if (newStatus === 'progress' && progressContainer.children.length > 5) {
