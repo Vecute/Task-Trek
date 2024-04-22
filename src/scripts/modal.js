@@ -96,6 +96,7 @@ export function taskModalConfirm (editingCard) {
       editingCard.dataset.id = taskToUpdate.id;
     } else {
       const date = new Date(); // Получаем текущее время
+      const dateString = date.toLocaleDateString()
       const timeString = date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }); // Преобразуем время в строку
       const id = Date.now(); // Генерируем уникальный идентификатор для задачи, используя текущее время в миллисекундах
       const userName = modalUser.options[modalUser.selectedIndex].text; // Забираем имя пользователя
@@ -110,12 +111,12 @@ export function taskModalConfirm (editingCard) {
                                     <p class="card__description">${valueDescription}</p>
                                     <div class="card__bottom">
                                       <p class="card__user">${userName}</p>
-                                      <p class="card__time">${timeString}</p>
+                                      <p class="card__date">${dateString} ${timeString}</p>
                                     </div>
                                   </div>`;
       tasks.push({ // Добавляем данные новой задачи в массив
           id: id, // Устанавливаем идентификатор задачи
-          time: timeString, // Устанавливаем время создания задачи
+          date: `${dateString} ${timeString}`, // Устанавливаем дату и время создания задачи
           title: valueTitle, // Устанавливаем название задачи
           description: valueDescription, // Устанавливаем описание задачи
           userID: modalUser.value, // Устанавливаем ответственного за задачу пользователя

@@ -13,8 +13,8 @@ export function moveCard(card, newStatus) {
     const currentTitle = currentTitleElement.innerHTML; // Извлекаем текст заголовка из элемента
     const currentDescriptionElement = card.getElementsByClassName('card__description')[0]; // Получаем элемент описания карточки
     const currentDescription = currentDescriptionElement.innerHTML; // Извлекаем текст описания из элемента
-    const currentTimeElement = card.getElementsByClassName('card__time')[0]; // Получаем элемент времени карточки
-    const currentTime = currentTimeElement.innerHTML; // Извлекаем текст времени из элемента
+    const currentDateElement = card.getElementsByClassName('card__date')[0]; // Получаем элемент даты и времени карточки
+    const currentDate = currentDateElement.innerHTML; // Извлекаем текст даты и времени из элемента
     const currentUserElement = card.getElementsByClassName('card__user')[0]; // Получаем элемент пользователя карточки
     const currentUser = currentUserElement.innerHTML; // Извлекаем текст имени пользователя из элемента
     const id = Number(card.dataset.id); // Получаем ID карточки из атрибута data-id и преобразуем его в число
@@ -54,7 +54,7 @@ export function moveCard(card, newStatus) {
         id: id,
         title: currentTitle,
         description: currentDescription,
-        time: currentTime,
+        date: currentDate,
         userName: currentUser
       });
   

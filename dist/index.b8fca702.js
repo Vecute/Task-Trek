@@ -777,7 +777,7 @@ function updateCounts() {
     // Проверяем содержимое контейнера TODO для отрисовки белой линии
     (0, _additionalFunctionsJs.addWhiteLine)();
 }
-function createCard(status, { id, title, description, time, userName }) {
+function createCard(status, { id, title, description, date, userName }) {
     return `
     <div class="card ${status}__card" data-id="${id}" draggable="true">
       <div class="card__buttons">
@@ -798,7 +798,7 @@ function createCard(status, { id, title, description, time, userName }) {
       <p class="card__description">${description}</p>
       <div class="card__bottom">
         <p class="card__user">${userName}</p>
-        <p class="card__time">${time}</p>
+        <p class="card__date">${date}</p>
       </div>
     </div>
   `;
@@ -1024,6 +1024,7 @@ function taskModalConfirm(editingCard) {
         editingCard.dataset.id = taskToUpdate.id;
     } else {
         const date = new Date(); // Получаем текущее время
+        const dateString = date.toLocaleDateString();
         const timeString = date.toLocaleTimeString([], {
             hour: "2-digit",
             minute: "2-digit"
@@ -1041,12 +1042,12 @@ function taskModalConfirm(editingCard) {
                                     <p class="card__description">${valueDescription}</p>
                                     <div class="card__bottom">
                                       <p class="card__user">${userName}</p>
-                                      <p class="card__time">${timeString}</p>
+                                      <p class="card__date">${dateString} ${timeString}</p>
                                     </div>
                                   </div>`;
         tasks.push({
             id: id,
-            time: timeString,
+            date: `${dateString} ${timeString}`,
             title: valueTitle,
             description: valueDescription,
             userID: (0, _mainJs.modalUser).value,
@@ -1167,8 +1168,8 @@ function moveCard(card, newStatus) {
     const currentTitle = currentTitleElement.innerHTML; // Извлекаем текст заголовка из элемента
     const currentDescriptionElement = card.getElementsByClassName("card__description")[0]; // Получаем элемент описания карточки
     const currentDescription = currentDescriptionElement.innerHTML; // Извлекаем текст описания из элемента
-    const currentTimeElement = card.getElementsByClassName("card__time")[0]; // Получаем элемент времени карточки
-    const currentTime = currentTimeElement.innerHTML; // Извлекаем текст времени из элемента
+    const currentDateElement = card.getElementsByClassName("card__date")[0]; // Получаем элемент даты и времени карточки
+    const currentDate = currentDateElement.innerHTML; // Извлекаем текст даты и времени из элемента
     const currentUserElement = card.getElementsByClassName("card__user")[0]; // Получаем элемент пользователя карточки
     const currentUser = currentUserElement.innerHTML; // Извлекаем текст имени пользователя из элемента
     const id = Number(card.dataset.id); // Получаем ID карточки из атрибута data-id и преобразуем его в число
@@ -1193,7 +1194,7 @@ function moveCard(card, newStatus) {
             id: id,
             title: currentTitle,
             description: currentDescription,
-            time: currentTime,
+            date: currentDate,
             userName: currentUser
         });
         // Вставляем новую карточку в нужный контейнер

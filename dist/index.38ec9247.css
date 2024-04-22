@@ -180,8 +180,18 @@ body::-webkit-scrollbar-thumb {
   display: flex;
 }
 
-.card__title, .card__description {
+.card__title {
+  color: #fff;
   margin: 10px;
+  font-size: 18px;
+  font-weight: 400;
+}
+
+.card__description {
+  color: #fff;
+  margin: 10px;
+  font-size: 16px;
+  font-weight: 400;
 }
 
 .card__bottom {
@@ -193,13 +203,13 @@ body::-webkit-scrollbar-thumb {
 .card__user {
   color: #fff;
   padding-right: 10px;
-  font-size: 16px;
+  font-size: 14px;
   font-weight: 400;
 }
 
-.card__time {
+.card__date {
   color: #fff;
-  font-size: 16px;
+  font-size: 14px;
   font-weight: 400;
 }
 

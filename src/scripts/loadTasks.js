@@ -45,7 +45,7 @@ export function updateCounts() {
     addWhiteLine()
 }
 
-export function createCard(status, { id, title, description, time, userName }) { // Функция для создания HTML-кода карточки задачи (используем деструктуризацию)
+export function createCard(status, { id, title, description, date, userName }) { // Функция для создания HTML-кода карточки задачи (используем деструктуризацию)
   return `
     <div class="card ${status}__card" data-id="${id}" draggable="true">
       <div class="card__buttons">
@@ -72,7 +72,7 @@ export function createCard(status, { id, title, description, time, userName }) {
       <p class="card__description">${description}</p>
       <div class="card__bottom">
         <p class="card__user">${userName}</p>
-        <p class="card__time">${time}</p>
+        <p class="card__date">${date}</p>
       </div>
     </div>
   `;

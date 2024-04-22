@@ -162,10 +162,12 @@ body {
   }
   
   &__title {
+    @include font($font-color, 18px, 400);
     margin: 10px;
   }
   
   &__description {
+    @include font($font-color, 16px, 400);
     margin: 10px;
   }
   
@@ -176,12 +178,12 @@ body {
   }
 
   &__user {
-    @include font($font-color, 16px, 400);
+    @include font($font-color, 14px, 400);
     padding-right: 10px;
   }
 
-  &__time {
-    @include font($font-color, 16px, 400);
+  &__date {
+    @include font($font-color, 14px, 400);
   }
   &__edit {
     &:focus-visible {
